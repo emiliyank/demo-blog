@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${blog.title}">Title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+    <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<div class="container">
+    <h1 class="text-center">Blog: <span th:text="${blog.title}">Title</span> </h1>
+
+    <h3 class="text-center">Articles</h3>
+    <a th:href="@{/articles/create/{blogId}(blogId=${blog.id})}" class="btn btn-primary">Add New Article</a>
+
+    <p th:if="${articles.empty}">
+        There are no articles in this blog yet!
+    </p>
+
+        <div class="card" th:each="article: ${articles}">
+
+            <--img class="card-img-top" th:src="@{${article.image.filename}}" alt="Card image cap"/ -->
+            <div class="card-body">
+                <h5 class="card-title"><span th:text="${article.title}"> Title </span></h5>
+                <p class="card-text"><span th:text="${#strings.abbreviate(article.content,100)}"> Content </span></p>
+                <a href="#" class="btn btn-info">Read more</a>
+            </div>
+        </div>
+</div>
+</body>
+</html>

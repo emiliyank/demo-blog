@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Blogs List</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+    <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<div class="container">
+    <div th:replace="fragments/header :: menu"></div>
+
+    <h1>Blogs List</h1>
+    <div th:if="${message_primary}">
+        <h3 th:text="${message_primary}" class="alert alert-primary" role="alert"></h3>
+    </div>
+    <div th:if="${message_success}">
+        <h3 th:text="${message_success}" class="alert alert-success" role="alert"></h3>
+    </div>
+    <div th:if="${message_danger}">
+        <h3 th:text="${message_danger}" class="alert alert-danger" role="alert"></h3>
+    </div>
+
+    <a href="/blogs/create" class="btn btn-primary">Create New Blog</a>
+    <table class="table table-striped" border="1px solid black">
+        <thead>
+            <tr>
+                <th> ID </th>
+                <th> Title </th>
+                <th> Author </th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:if="${blogs.empty}">
+                <td colspan="3"> No Blogs Available </td>
+            </tr>
+            <tr th:each="blog : ${blogs}">
+                <td><span th:text="${blog.id}"> ID </span></td>
+                <td>
+                    <a th:href="@{/blogs/show/{id}(id=${blog.id})}">
+                        <span th:text="${blog.title}"> Title </span>
+                    </a>
+                </td>
+                <td><span th:text="${blog.userId}"> Author </span></td>
+                <td><a th:href="@{/blogs/edit/{id}(id=${blog.id})}" class="btn btn-success">Edit</a></td>
+                <td>
+                    <form action="#"
+                          th:action="@{/blogs/delete/{id}(id=${blog.id})}"
+                          method="post">
+                        <input type="submit" value="Delete" onclick="return confirm('Do you really want to delete this blog?')" class="btn btn-danger">
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div th:replace="fragments/footer :: copy"></div>
+</body>
+</html>
